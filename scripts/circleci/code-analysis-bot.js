@@ -9,17 +9,17 @@
 
 'use strict';
 
-if (!process.env.GITHUB_OWNER) {
-  console.error('Missing GITHUB_OWNER. Example: facebook');
-  process.exit(1);
-}
-if (!process.env.GITHUB_REPO) {
-  console.error('Missing GITHUB_REPO. Example: react-native');
-  process.exit(1);
-}
+// if (!process.env.GITHUB_OWNER) {
+//   console.error('Missing GITHUB_OWNER. Example: facebook');
+//   process.exit(1);
+// }
+// if (!process.env.GITHUB_REPO) {
+//   console.error('Missing GITHUB_REPO. Example: react-native');
+//   process.exit(1);
+// }
 
 // https://octokit.github.io/rest.js/
-const octokit = require('@octokit/rest')();
+// const octokit = require('@octokit/rest')();
 
 const path = require('path');
 
@@ -34,6 +34,7 @@ const converterSummary = {
   eslint:
     '`eslint` found some issues. Run `yarn lint --fix` to automatically fix problems.',
   flow: '`flow` found some issues.',
+  clangformat: '`clang-format` found some issues. Run `yarn clang-format` to automatically fix problems.',
   shellcheck: '`shellcheck` found some issues.',
 };
 
@@ -86,6 +87,21 @@ const converters = {
         });
       });
     });
+  },
+
+  clangformat: function(output, input) {
+    if (!input) {
+      return;
+    }
+
+    console.log("yoyoyo");
+    if (output.indexOf("offset") !== -1) {
+      console.log("Yo");
+      push(output, "unknown", {
+        message: "A clang-format violation occurred. Run `yarn clang-format` to resolve it.",
+        converter: 'clangformat',
+      });
+    }
   },
 
   shellcheck: function(output, input) {
@@ -290,12 +306,16 @@ process.stdin.on('end', function() {
   const lines = content.trim().split('\n');
   for (let i = 0; i < Math.ceil(lines.length / 2); ++i) {
     const converter = converters[lines[i * 2]];
+    console.log(JSON.stringify(lines[i*2-1]))
+    console.log(JSON.stringify(lines[i*2]))
     if (!converter) {
+      console.log('yeyeyey')
       throw new Error('Unknown converter ' + lines[i * 2]);
     }
     let json;
     try {
       json = JSON.parse(lines[i * 2 + 1]);
+      console.log('yoyoyo')
     } catch (e) {}
 
     converter(messages, json);

@@ -141,6 +141,8 @@
     "flow-check-android": "flow check --flowconfig-name .flowconfig.android",
     "lint": "eslint .",
     "clang-format": "clang-format -i --glob=*/**/*.{h,cpp,m,mm}",
+    "clang-format-check": "clang-format --glob=*/**/*.{h,cpp,m,mm} -output-replacements-xml",
+    "clang-format-check-json": "yarn clang-format-check | xml2json",
     "format": "npm run prettier && npm run clang-format",
     "prettier": "prettier --write \"./**/*.js\" \"./**/*.md\"",
     "format-check": "prettier --list-different \"./**/*.js\" \"./**/*.md\"",
@@ -170,6 +172,7 @@
     "event-target-shim": "^1.0.5",
     "fbjs": "^1.0.0",
     "fbjs-scripts": "^1.0.0",
+    "foreach-cli": "^1.8.1",
     "invariant": "^2.2.4",
     "metro-babel-register": "0.51.0",
     "metro-react-native-babel-transformer": "0.51.0",
@@ -183,6 +186,7 @@
     "regenerator-runtime": "^0.11.0",
     "stacktrace-parser": "^0.1.3",
     "ws": "^1.1.5",
+    "xml2json-command": "^0.0.3",
     "yargs": "^9.0.0"
   },
   "devDependencies": {
